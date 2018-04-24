@@ -98,6 +98,13 @@ def main():
             report('show_config API',
                    'Not Available (optional) (requires v4.0.0+)')
 
+        builtins = get_cdll('nvrtc-builtins')
+        if builtins is None:
+            report('NVRTC Builtins', 'Not Found')
+        else:
+            builtins_path = get_cdll_path(builtins.getArchBuiltins)
+            report('NVRTC Builtins', 'Found ({})'.format(builtins_path))
+
         try:
             cupy.cuda.compiler.compile_using_nvrtc('')
             cupy_compile = 'OK'
