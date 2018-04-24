@@ -66,9 +66,11 @@ def main():
     header('CuPy')
     cupy = None
     (cupy_status, cudnn_status, nccl_status) = ('N/A', 'N/A', 'N/A')
+    cudart_version = None
     try:
         import cupy
         cupy_status = 'OK'
+        cudart_version = cupy.cuda.runtime.runtimeGetVersion()
         try:
             import cupy.cuda.cudnn
             cudnn_status = 'OK'
@@ -140,7 +142,8 @@ def main():
         pkg = get_package(pkgname)
         if pkg is not None:
             _report_pypkg('CuPy', 'cupy', pkg)
-            if not is_cuda_version_supported(cudart_version):
+            if (cudart_version is not None and
+                    not is_cuda_version_supported(cudart_version)):
                 print('*** ERROR: This CuPy package ({}) does not support '
                       'CUDA version {}!'.format(pkgname, cudart_version))
             if cupy_found is not None:
