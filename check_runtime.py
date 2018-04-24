@@ -192,8 +192,10 @@ def main():
         import_msg = None
         try:
             mod = __import__(modname)
-            import_msg = 'importing {} from {}'.format(
-                mod.__version__, mod.__path__)
+            version = '(unknown version)'
+            if hasattr(mod, '__version__'):
+                version = mod.__version__
+            import_msg = 'importing {} from {}'.format(version, mod.__path__)
         except Exception as e:
             import_msg = 'import failed with {}: {}'.format(
                 type(e).__name__, str(e))
@@ -234,6 +236,10 @@ def main():
 
     # NumPy
     _report_pypkg('NumPy', 'numpy', get_package('numpy'))
+
+    # iDeep
+    _report_pypkg('iDeep', 'ideep4py', get_package('ideep4py'))
+
 
 
 if __name__ == '__main__':
