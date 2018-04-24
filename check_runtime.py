@@ -51,7 +51,7 @@ def header(title):
     print('=' * 40)
 
 def report(title, status):
-    print('{:<25}: {}'.format(title, status))
+    print('{:<22}: {}'.format(title, status))
 
 
 def main():
