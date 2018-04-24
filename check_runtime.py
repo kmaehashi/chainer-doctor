@@ -62,6 +62,47 @@ def main():
         if k.startswith('LD_') or k.startswith('DYLD_'):
             report('${}'.format(k), v)
 
+    ### CuPy
+    header('CuPy')
+    cupy = None
+    (cupy_status, cudnn_status, nccl_status) = ('N/A', 'N/A', 'N/A')
+    try:
+        import cupy
+        cupy_status = 'OK'
+        try:
+            import cupy.cuda.cudnn
+            cudnn_status = 'OK'
+        except Exception as e:
+            cudnn_status = 'failed (optional) ({})'.format(repr(e))
+        try:
+            import cupy.cuda.nccl
+            nccl_status = 'OK'
+        except Exception as e:
+            nccl_status = 'failed (optional) ({})'.format(repr(e))
+    except Exception as e:
+        cupy_status = 'failed ({})'.format(repr(e))
+
+    report('Available', cupy_status)
+    if cupy is not None:
+        report('Available (cuDNN)', cudnn_status)
+        report('Available (NCCL)', nccl_status)
+
+        if hasattr(cupy, 'show_config'):
+            report('show_config API', 'Available')
+            print('')
+            cupy.show_config()
+            print('')
+        else:
+            report('show_config API',
+                   'Not Available (optional) (requires v4.0.0+)')
+
+        try:
+            cupy.cuda.compiler.compile_using_nvrtc('')
+            cupy_compile = 'OK'
+        except Exception as e:
+            cupy_compile = 'failed ({})'.format(repr(e))
+        report('Compiler Test', cupy_compile)
+
     ### Libraries
     header('Libraries')
     cudart_version = None
