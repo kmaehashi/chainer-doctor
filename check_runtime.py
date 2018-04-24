@@ -110,7 +110,7 @@ def main():
             cupy_compile = 'OK'
         except Exception as e:
             cupy_compile = 'failed ({})'.format(repr(e))
-        report('Compiler Test', cupy_compile)
+        report('NVRTC Test', cupy_compile)
 
     ### Python Modules
     header('Python Modules')
