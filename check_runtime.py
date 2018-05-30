@@ -141,8 +141,9 @@ def main():
     cupy_pkgs = [
         ('cupy',        lambda v: 7000 <= v < 10000),
         ('cupy-cuda80', lambda v: 8000 <= v <  9000),
-        ('cupy-cuda90', lambda v: 9000 <= v <  9100),
-        ('cupy-cuda91', lambda v: 9100 <= v <  9200),
+        ('cupy-cuda90', lambda v: 9000 <= v <  9010),
+        ('cupy-cuda91', lambda v: 9010 <= v <  9020),
+        ('cupy-cuda92', lambda v: 9020 <= v <  9030),
     ]
     cupy_found = None
     for (pkgname, is_cuda_version_supported) in cupy_pkgs:
